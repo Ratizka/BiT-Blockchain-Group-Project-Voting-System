@@ -9,6 +9,11 @@ Quick Start
 
 To run this project locally:
 
+Install yarn `npm install --global yarn`
+
+`npm uninstall deasync`
+`npm install deasync`
+
 1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
 2. Install dependencies: `yarn install`
 3. Run the local development server: `yarn dev` (see `package.json` for a
@@ -100,4 +105,3 @@ On Windows, if you're seeing an error containing `EPERM` it may be related to sp
   [NEAR Wallet]: https://wallet.testnet.near.org/
   [near-cli]: https://github.com/near/near-cli
   [gh-pages]: https://github.com/tschaub/gh-pages
-# blockvotetutorial2
