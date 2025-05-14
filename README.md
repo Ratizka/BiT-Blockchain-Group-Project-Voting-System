@@ -3,13 +3,16 @@ blockvote
 
 This [React] app was initialized with [create-near-app]
 
-
 Quick Start
 ===========
 
 To run this project locally:
 
 Install yarn `npm install --global yarn`
+
+If you have problems with:
+
+> Error: Could not locate the bindings file.
 
 `npm uninstall deasync`
 `npm install deasync`
