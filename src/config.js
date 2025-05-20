@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME ||'blockvote'
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'blockvote.roughjava5453.testnet'
 
 function getConfig(env) {
   switch (env) {
