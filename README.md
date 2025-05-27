@@ -1,110 +1,147 @@
-blockvote
-==================
+# BIT Polling App
+====================================
 
-This [React] app was initialized with [create-near-app]
+This is a decentralized polling/voting application built with React, Tailwind CSS, and NEAR Protocol.
+
+This project was originally initialized using `create-near-app` and has been significantly updated.
 
 Quick Start
 ===========
 
 To run this project locally:
 
-Install yarn `npm install --global yarn`
+1.  **Prerequisites**:
+    *   Make sure you've installed [Node.js] (version 16 or higher is recommended).
+    *   Install yarn (optional, if you prefer it over npm): `npm install --global yarn`
 
-If you have problems with:
+2.  **Clone the repository (if you haven't already)**:
+    ```bash
+    git clone <your-repository-url>
+    cd blockchain-polling-app # Or your project's directory name
+    ```
 
-> Error: Could not locate the bindings file.
+3.  **Install dependencies**:
+    Using npm:
+    ```bash
+    npm install
+    ```
+    Or using yarn:
+    ```bash
+    yarn install
+    ```
+    *If you encounter issues like `Error: Could not locate the bindings file.` related to `deasync` during or after installation, try:*
+    ```bash
+    npm uninstall deasync
+    npm install deasync
+    ```
 
-`npm uninstall deasync`
-`npm install deasync`
+4.  **Set up Environment Variables**:
+    *   This project uses Vite, which handles environment variables. You'll need to create a `.env` file in the project root.
 
-1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
-2. Install dependencies: `yarn install`
-3. Run the local development server: `yarn dev` (see `package.json` for a
-   full list of `scripts` you can run with `yarn`)
+5.  **Run the local development server**:
+    The primary script for development is:
+    ```bash
+    npm run dev
+    ```
+    This command typically handles contract deployment to a dev account, builds the frontend, and starts a development server with hot reloading.
 
-Now you'll have a local development environment backed by the NEAR TestNet!
+    Alternatively, for a simpler frontend-only start (assuming contract is already deployed and configured):
+    ```bash
+    npm run start:frontend 
+    ```
+    (Consult `package.json` for a full list of `scripts`.)
 
-Go ahead and play with the app and the code. As you make code changes, the app will automatically reload.
-
+You should now have a local development environment running the application, typically connected to the NEAR TestNet. As you make code changes, the app (if using `npm run dev`) should automatically reload.
 
 Exploring The Code
 ==================
 
-1. The "backend" code lives in the `/contract` folder. See the README there for
-   more info.
-2. The frontend code lives in the `/src` folder. `/src/index.html` is a great
-   place to start exploring. Note that it loads in `/src/index.js`, where you
-   can learn how the frontend connects to the NEAR blockchain.
-3. Tests: there are different kinds of tests for the frontend and the smart
-   contract. See `contract/README` for info about how it's tested. The frontend
-   code gets tested with [jest]. You can run both of these at once with `yarn
-   run test`.
+1.  **Smart Contract (Backend)**:
+    *   Lives in the `/contract` folder.
+    *   Written in AssemblyScript.
+    *   See `contract/README.md` for more specific details on its structure, build process, and testing.
 
+2.  **Frontend**:
+    *   Lives in the `/src` folder.
+    *   Built with [React], [Tailwind CSS] for styling, and [Vite] as the build tool.
+    *   `src/index.html` is the main HTML entry point.
+    *   `src/main.jsx` (or `src/index.js` / `src/App.js`) is where the React application is initialized and connected to the NEAR blockchain via utility functions in `src/utils.js` and configuration in `src/config.js`.
+    *   Components are located in `src/Components/`.
+    *   Services for interacting with the blockchain (like `PollService.js`) are in `src/services/`.
 
-Deploy
-======
+3.  **Tests**:
+    *   Frontend tests might use [Jest]. Run tests using:
+        ```bash
+        npm test
+        ```
+    *   Smart contract tests are typically run within the `/contract` directory (see its README).
 
-Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `yarn dev`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
+Deployment
+==========
 
+Deploying this application involves two main parts: deploying the smart contract to the NEAR blockchain and deploying the frontend application.
 
-Step 0: Install near-cli (optional)
--------------------------------------
+### Smart Contract Deployment
 
-[near-cli] is a command line interface (CLI) for interacting with the NEAR blockchain. It was installed to the local `node_modules` folder when you ran `yarn install`, but for best ergonomics you may want to install it globally:
+1.  **Install NEAR CLI**: If not already installed globally, it's recommended for easier contract management.
+    ```bash
+    npm install --global near-cli
+    ```
+    (Or use the version from `node_modules` via `npx near ...`)
 
-    yarn install --global near-cli
+2.  **Create a NEAR Account**: Your smart contract needs its own NEAR account.
+    *   If you don't have one, create one at [NEAR Wallet] (TestNet or MainNet).
+    *   Log in with `near login`.
+    *   Create a sub-account for your contract, e.g., `polling-app.your-account.testnet`:
+        ```bash
+        near create-account polling-app.YOUR-ACCOUNT.testnet --masterAccount YOUR-ACCOUNT.testnet
+        ```
 
-Or, if you'd rather use the locally-installed version, you can prefix all `near` commands with `npx`
+3.  **Configure Contract Name**:
+    *   Update `VITE_CONTRACT_NAME` in your `.env` file (for local) or directly in `src/config.js` if not using `.env` for this specific deployment script, to point to your deployed contract account ID (e.g., `polling-app.YOUR-ACCOUNT.testnet`).
 
-Ensure that it's installed with `near --version` (or `npx near --version`)
+4.  **Deploy the Contract**:
+    The `package.json` includes scripts for contract deployment. For a release build and deployment:
+    ```bash
+    npm run deploy:contract 
+    ```
+    This script might need adjustment based on your target network (TestNet/MainNet) and account. It typically builds the contract in release mode and deploys it.
+    For development, `npm run dev` often handles deploying a debug version to a dev account.
 
+### Frontend Deployment
 
-Step 1: Create an account for the contract
-------------------------------------------
+The project is set up to deploy the frontend to GitHub Pages using `gh-pages` via:
+```bash
+npm run deploy:pages
+```
+This is part of the combined `npm run deploy` script.
 
-Each account on NEAR can have at most one contract deployed to it. If you've already created an account such as `your-name.testnet`, you can deploy your contract to `blockvote.your-name.testnet`. Assuming you've already created an account on [NEAR Wallet], here's how to create `blockvote.your-name.testnet`:
+General Project Information
+===========================
 
-1. Authorize NEAR CLI, following the commands it gives you:
-
-      near login
-
-2. Create a subaccount (replace `YOUR-NAME` below with your actual account name):
-
-      near create-account blockvote.YOUR-NAME.testnet --masterAccount YOUR-NAME.testnet
-
-
-Step 2: set contract name in code
----------------------------------
-
-Modify the line in `src/config.js` that sets the account name of the contract. Set it to the account id you used above.
-
-    const CONTRACT_NAME = process.env.CONTRACT_NAME || 'blockvote.YOUR-NAME.testnet'
-
-
-Step 3: deploy!
----------------
-
-One command:
-
-    yarn deploy
-
-As you can see in `package.json`, this does two things:
-
-1. builds & deploys smart contract to NEAR TestNet
-2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
-
+*   **Styling**: [Tailwind CSS] is used for styling. Customize configuration in `tailwind.config.js`.
+*   **Build Tool**: [Vite] is used for frontend bundling and development server.
 
 Troubleshooting
 ===============
 
-On Windows, if you're seeing an error containing `EPERM` it may be related to spaces in your path. Please see [this issue](https://github.com/zkat/npx/issues/209) for more details.
+*   **Windows `EPERM` errors**: If you encounter errors containing `EPERM` on Windows, it might be related to spaces in your project path or issues with file permissions.
+*   **Build Issues**: Ensure all dependencies are correctly installed. Check console logs for specific error messages.
+*   **Contract Calls Failing**:
+    *   Verify `VITE_CONTRACT_NAME` in your `.env` (or `src/config.js`) is correct and matches the deployed contract account.
+    *   Ensure the contract is deployed to the correct NEAR network (TestNet/MainNet) as configured.
+    *   Check NEAR Explorer for transaction details and contract state.
 
+---
 
+Links:
   [React]: https://reactjs.org/
   [create-near-app]: https://github.com/near/create-near-app
-  [Node.js]: https://nodejs.org/en/download/package-manager/
-  [jest]: https://jestjs.io/
-  [NEAR accounts]: https://docs.near.org/docs/concepts/account
-  [NEAR Wallet]: https://wallet.testnet.near.org/
+  [Node.js]: https://nodejs.org/
+  [Tailwind CSS]: https://tailwindcss.com/
+  [Vite]: https://vitejs.dev/
+  [Jest]: https://jestjs.io/
+  [NEAR accounts]: https://docs.near.org/concepts/account
+  [NEAR Wallet]: https://wallet.testnet.near.org/ (for TestNet) or https://wallet.near.org/ (for MainNet)
   [near-cli]: https://github.com/near/near-cli
   [gh-pages]: https://github.com/tschaub/gh-pages
