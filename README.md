@@ -14,42 +14,17 @@ To run this project locally:
     *   Make sure you've installed [Node.js] (version 16 or higher is recommended).
     *   Install yarn (optional, if you prefer it over npm): `npm install --global yarn`
 
-2.  **Clone the repository (if you haven't already)**:
-    ```bash
-    git clone <your-repository-url>
-    cd blockchain-polling-app # Or your project's directory name
-    ```
+If you have problems with:
 
-3.  **Install dependencies**:
-    Using npm:
-    ```bash
-    npm install
-    ```
-    Or using yarn:
-    ```bash
-    yarn install
-    ```
-    *If you encounter issues like `Error: Could not locate the bindings file.` related to `deasync` during or after installation, try:*
-    ```bash
-    npm uninstall deasync
-    npm install deasync
-    ```
+> Error: Could not locate the bindings file.
 
-4.  **Set up Environment Variables**:
-    *   This project uses Vite, which handles environment variables. You'll need to create a `.env` file in the project root.
+`npm uninstall deasync`
+`npm install deasync`
 
-5.  **Run the local development server**:
-    The primary script for development is:
-    ```bash
-    npm run dev
-    ```
-    This command typically handles contract deployment to a dev account, builds the frontend, and starts a development server with hot reloading.
-
-    Alternatively, for a simpler frontend-only start (assuming contract is already deployed and configured):
-    ```bash
-    npm run start:frontend 
-    ```
-    (Consult `package.json` for a full list of `scripts`.)
+1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
+2. Install dependencies: `yarn install`
+3. Run the local development server: `yarn dev` (see `package.json` for a
+   full list of `scripts` you can run with `yarn`)
 
 You should now have a local development environment running the application, typically connected to the NEAR TestNet. As you make code changes, the app (if using `npm run dev`) should automatically reload.
 

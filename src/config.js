@@ -1,5 +1,4 @@
-// Configuration for NEAR blockchain connection
-import { getEnvVar } from './env-utils';
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'blockvote.roughjava5453.testnet'
 
 const CONTRACT_NAME = getEnvVar('CONTRACT_NAME', 
                               getEnvVar('NEAR_CLI_DEV_ACCOUNT_ID', 'hammadaiy.testnet'));
