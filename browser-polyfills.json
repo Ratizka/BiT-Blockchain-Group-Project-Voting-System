@@ -1,0 +1,9 @@
+{
+  "browser": {
+    "buffer": false,
+    "process": false,
+    "crypto": false,
+    "stream": false,
+    "util": false
+  }
+}
